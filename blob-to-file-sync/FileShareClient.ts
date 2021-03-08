@@ -21,8 +21,14 @@ export default class FileShareClient {
     let fileClient: ShareFileClient;
     if (path.includes('/')) {
       const filePath = this.parseFilePath(path);
-      const directoryClient = this.shareClient.getDirectoryClient(filePath.Directory);
-      await directoryClient.createIfNotExists();
+      let directoryClient = this.shareClient.rootDirectoryClient;
+      
+      const folderHierachy = filePath.Directory.split('/');
+      for (const dir of folderHierachy) {
+        directoryClient = directoryClient.getDirectoryClient(dir);
+        await directoryClient.createIfNotExists(); 
+      }
+
       fileClient = directoryClient.getFileClient(filePath.FileName);
     } else {
       const directoryClient = this.shareClient.rootDirectoryClient;
