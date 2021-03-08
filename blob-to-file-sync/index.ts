@@ -1,6 +1,6 @@
 import { AzureFunction, Context } from '@azure/functions';
 import { EventGridEvent } from '@azure/eventgrid/esm/models';
-import * as nconf from "nconf";
+import * as nconf from 'nconf';
 
 import StorageAccountConfig from './StorageAccountConfig';
 import Synchronizer from './Synchronizer';
@@ -25,7 +25,7 @@ const eventGridTrigger: AzureFunction = async function (context: Context, eventG
   try {
     await synchronizer.handleBlobEvent(eventGridEvent);
   } catch (err) {
-    context.log.error(`Unable to handle event`, err);
+    context.log.error('Unable to handle event', err);
   }
 };
 
@@ -37,7 +37,7 @@ function buildStorageAccountConfig(config: any): StorageAccountConfig {
   };
 
   if (config.STORAGE_ACCOUNT.ACCESS_KEY) {
-    storageAccountConfig.AccessKey = config.STORAGE_ACCOUNT.ACCESS_KEY
+    storageAccountConfig.AccessKey = config.STORAGE_ACCOUNT.ACCESS_KEY;
   }
 
   return storageAccountConfig;

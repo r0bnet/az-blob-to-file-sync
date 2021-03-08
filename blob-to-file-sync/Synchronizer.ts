@@ -1,5 +1,4 @@
 import { EventGridEvent } from '@azure/eventgrid/esm/models';
-import { logger } from '@azure/storage-blob';
 
 import BlobClient from './BlobClient';
 import FileShareClient from './FileShareClient';
@@ -37,17 +36,17 @@ export default class Synchronizer {
 
     const eventType = event.eventType as EventType;
     switch (eventType) {
-      case EventType.BlobCreated:
-        this.logger.info(`Handling blob created event...`);
-        await this.handleBlobCreatedEvent(blobUrl);
-        break;
-      case EventType.BlobDeleted:
-        this.logger.info(`Handling blob deleted event...`);
-        await this.handleBlobDeletedEvent(blobUrl);
-        break;
-      default:
-        this.logger.info(`Unknown event type '${event.eventType}', skipping...`);
-        return;
+    case EventType.BlobCreated:
+      this.logger.info('Handling blob created event...');
+      await this.handleBlobCreatedEvent(blobUrl);
+      break;
+    case EventType.BlobDeleted:
+      this.logger.info('Handling blob deleted event...');
+      await this.handleBlobDeletedEvent(blobUrl);
+      break;
+    default:
+      this.logger.info(`Unknown event type '${event.eventType}', skipping...`);
+      return;
     }
   }
 
@@ -56,13 +55,13 @@ export default class Synchronizer {
       throw new Error(`Unable to parse blob url. Type: ${typeof url}, value: ${url}`);
     }
 
-    const blobUrlRegex = new RegExp(/^(?<protocol>https?):\/\/(?<accountHost>[^\/]+)\/(?<containerName>[^\/]+)\/(?<blobPath>.+)$/);
+    const blobUrlRegex = new RegExp(/^(?<protocol>https?):\/\/(?<accountHost>[^/]+)\/(?<containerName>[^/]+)\/(?<blobPath>.+)$/);
     const match = url.match(blobUrlRegex);
     if (!match) {
-      throw new Error(`Unable to parse blob url. Blob URL regex doesn't match`);
+      throw new Error('Unable to parse blob url. Blob URL regex doesn\'t match');
     }
 
-    const blobNameRegex = new RegExp(/(?<blobName>[^\/]+)$/);
+    const blobNameRegex = new RegExp(/(?<blobName>[^/]+)$/);
     const blobPath = match.groups.blobPath;
     const blobName = blobPath.match(blobNameRegex).groups.blobName;
 
@@ -81,14 +80,14 @@ export default class Synchronizer {
 
     this.logger.info(`Starting download of '${blobUrl.BlobPath}' from container '${blobUrl.ContainerName}'`);
     const fileBuffer = await blobClient.downloadBlob(blobUrl.BlobPath);
-    this.logger.info(`Download finished`);
+    this.logger.info('Download finished');
 
     const fileHostUrl = blobHostUrl.replace('.blob.', '.file.');
     const fileShareClient = new FileShareClient(fileHostUrl, this.storageAccountConfig.AccessKey, this.storageAccountConfig.TargetShare);
 
     this.logger.info(`Starting upload of '${blobUrl.BlobPath}'`);
     await fileShareClient.createFile(blobUrl.BlobPath, fileBuffer);
-    this.logger.info(`Upload finished`);
+    this.logger.info('Upload finished');
   }
 
   private async handleBlobDeletedEvent(blobUrl: BlobUrl): Promise<void> {
@@ -97,7 +96,7 @@ export default class Synchronizer {
     const fileShareClient = new FileShareClient(fileHostUrl, this.storageAccountConfig.AccessKey, this.storageAccountConfig.TargetShare);
     this.logger.info(`Deleting file '${blobUrl.BlobPath}'`);
     await fileShareClient.deleteFile(blobUrl.BlobPath);
-    this.logger.info(`Deletion finished`);
+    this.logger.info('Deletion finished');
   }
 }
 

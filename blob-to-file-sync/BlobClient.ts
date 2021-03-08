@@ -1,7 +1,6 @@
 import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from '@azure/storage-blob';
 
 import { extractAccountNameFromStorageAccountHostUrl } from './Util';
-
 export default class BlobClient {
   private containerClient: ContainerClient;
 

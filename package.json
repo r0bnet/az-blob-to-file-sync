@@ -18,6 +18,9 @@
   },
   "devDependencies": {
     "@azure/functions": "^1.0.2-beta2",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
     "typescript": "^3.3.3"
   }
 }
