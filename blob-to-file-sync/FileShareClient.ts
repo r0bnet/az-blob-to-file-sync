@@ -18,6 +18,8 @@ export default class FileShareClient {
   }
 
   async createFile(path: string, content: Buffer): Promise<void> {
+    await this.shareClient.createIfNotExists();
+
     let fileClient: ShareFileClient;
     if (path.includes('/')) {
       const filePath = this.parseFilePath(path);
@@ -40,6 +42,8 @@ export default class FileShareClient {
   }
 
   async deleteFile(path: string): Promise<void> {
+    await this.shareClient.createIfNotExists();
+
     let fileClient: ShareFileClient;
     if (path.includes('/')) {
       const filePath = this.parseFilePath(path);

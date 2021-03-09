@@ -24,4 +24,3 @@ has the same name as the blob container.
 
 ## TODO
 - Make the source container variable optional (handle events from all containers)
-- If the target file share doesn't exist create it before file creation or deletion
