@@ -22,5 +22,9 @@ happen in that particular blob container will be handled. You can either specify
 to be used for blob to file synchronization or otherwise it will try to sync to a file share that
 has the same name as the blob container.
 
+## Test locally
+Enter the environment variables in the `local.settings.json`. After that you can check this
+documentation to test it: https://docs.microsoft.com/en-us/azure/azure-functions/functions-debug-event-grid-trigger-local
+
 ## TODO
 - Make the source container variable optional (handle events from all containers)
