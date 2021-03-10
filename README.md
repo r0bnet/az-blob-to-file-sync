@@ -29,3 +29,4 @@ documentation to test it: https://docs.microsoft.com/en-us/azure/azure-functions
 ## TODO
 - Make the source container variable optional (handle events from all containers)
 - Optionally delete empty directories after a a file was deleted
+- Add an option to prevent replacing existing files on the share
